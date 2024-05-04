@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
-        lowerCase: true
+        lowercase: true
     },
     username: {
         type: String,
