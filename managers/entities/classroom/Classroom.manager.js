@@ -8,7 +8,7 @@ module.exports = class Classroom {
         this.validators          = validators;
         this.mongomodels         = mongomodels;
         this.tokenManager        = managers.token;
-        this.httpExposed         = ['post=create', 'get=read', 'patch=update', 'put=update', 'put=enroll', 'put=unenroll', 'delete=delete'];
+        this.httpExposed         = ['post=create', 'get=read', 'get=getMyClasses', 'patch=update', 'put=update', 'put=enroll', 'put=unenroll', 'delete=delete'];
     }
 
     async create({name, schoolId, __token}){
@@ -59,6 +59,10 @@ module.exports = class Classroom {
         return {classroom};
     }
 
+    async getMyClasses({__token}) {
+        const classes = await this.mongomodels.classroom.find({"students": {$elemMatch: {$eq: __token.userId}}}).exec();
+        return {classes};
+    }
 
     async update({name, entity_id, __token}) {
         const jwtUser = __token;
