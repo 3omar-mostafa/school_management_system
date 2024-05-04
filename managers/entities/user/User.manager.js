@@ -25,6 +25,7 @@ module.exports = class User {
 
         // Response
         return {
+            code: 201,
             user: createdUser,
             token
         };

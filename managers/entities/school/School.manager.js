@@ -58,7 +58,7 @@ module.exports = class School {
 
         await school.save();
 
-        return {school};
+        return {code: 201, school};
     }
 
 

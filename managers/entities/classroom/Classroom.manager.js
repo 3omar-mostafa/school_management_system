@@ -45,7 +45,7 @@ module.exports = class Classroom {
         await createdClassroom.save();
 
         // Response
-        return {classroom: createdClassroom};
+        return {code: 201, classroom: createdClassroom};
     }
     
 
