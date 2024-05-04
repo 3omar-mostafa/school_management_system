@@ -22,6 +22,11 @@ module.exports = {
         type: 'string',
         length: {min: 3, max: 300}
     },
+    name: {
+        path: 'name',
+        type: 'string',
+        length: {min: 3, max: 300}
+    },
     label: {
         path: 'label',
         type: 'string',
