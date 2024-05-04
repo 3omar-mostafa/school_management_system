@@ -76,6 +76,7 @@ module.exports = class School {
         }
 
         const deleteResult = await this.mongomodels.school.deleteOne({_id: entity_id}).exec();
+        await this.mongomodels.classroom.deleteMany({school: entity_id}).exec();
 
         return {deleteResult};
     }
