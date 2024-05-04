@@ -7,19 +7,20 @@ module.exports = class User {
         this.mongomodels         = mongomodels;
         this.tokenManager        = managers.token;
         this.usersCollection     = "users";
-        this.userExposed         = ['createUser'];
+        this.httpExposed         = ['post=register'];
     }
 
-    async createUser({username, email, password}){
+    async register({username, email, password}){
         const user = {username, email, password};
 
         // Data validation
-        let result = await this.validators.user.createUser(user);
+        let result = await this.validators.user.register(user);
         if(result) return result;
         
         // Creation Logic
-        let createdUser     = {username, email, password}
-        let longToken       = this.tokenManager.genLongToken({userId: createdUser._id, userKey: createdUser.key });
+        let createdUser     = new this.mongomodels.user({username, email, password});
+        await createdUser.save();
+        let longToken       = this.tokenManager.genLongToken({userId: createdUser._id, role: createdUser.role });
         
         // Response
         return {
