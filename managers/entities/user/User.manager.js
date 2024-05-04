@@ -41,7 +41,7 @@ module.exports = class User {
         return {token};
     }
 
-    async get({entity_id, __token}) {
+    async read({entity_id, __token}) {
         const jwtUser = __token;
         if (!entity_id) {
             return {error: 'userId in url is empty'}
