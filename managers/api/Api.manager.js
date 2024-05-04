@@ -126,7 +126,7 @@ module.exports = class ApiHandler {
 
         let method        = req.method.toLowerCase();
         let moduleName    = req.params.moduleName;
-        let context       = req.params.context;
+        let entity_id     = req.params.entity_id;
         let fnName        = req.params.fnName;
         let moduleMatrix  = this.methodMatrix[moduleName];
 
@@ -154,6 +154,7 @@ module.exports = class ApiHandler {
             let result = await this._exec({targetModule: this.managers[moduleName], fnName, data: {
                 ...body, 
                 ...results,
+                entity_id,
                 res,
             }});
             if(!result)result={}
