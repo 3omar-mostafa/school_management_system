@@ -21,12 +21,12 @@ module.exports = class User {
         // Creation Logic
         let createdUser     = new this.mongomodels.user({username, email, password});
         await createdUser.save();
-        let longToken       = this.tokenManager.genLongToken({userId: createdUser._id, role: createdUser.role });
+        let token       = this.tokenManager.genShortToken({userId: createdUser._id, role: createdUser.role });
 
         // Response
         return {
             user: createdUser,
-            longToken
+            token
         };
     }
 
@@ -36,9 +36,9 @@ module.exports = class User {
             return {error: "Invalid email/password"}
         }
 
-        let longToken = this.tokenManager.genLongToken({userId: user._id, role: user.role });
+        let token = this.tokenManager.genShortToken({userId: user._id, role: user.role });
 
-        return {longToken};
+        return {token};
     }
 
 }
