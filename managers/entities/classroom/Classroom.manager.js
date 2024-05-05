@@ -140,14 +140,19 @@ module.exports = class Classroom {
             return {error: 'classroomId in url is empty'}
         }
 
-        if (!['super_admin', 'school_admin'].includes(__token.role)) {
+        let deleteResult = null;
+
+        if (__token.role === 'super_admin') {
+            deleteResult = await this.mongomodels.classroom.deleteOne({_id: entity_id}).exec();
+        } else if (__token.role === 'school_admin') {
+            let school = await this.mongomodels.school.findOne({admin: __token.userId}).exec();
+            deleteResult = await this.mongomodels.classroom.deleteOne({_id: entity_id, school: school._id}).exec();
+        } else {
             return {
                 error: 'forbidden',
                 code: 403
             }
         }
-
-        const deleteResult = await this.mongomodels.classroom.deleteOne({_id: entity_id}).exec();
 
         return {deleteResult};
     }
