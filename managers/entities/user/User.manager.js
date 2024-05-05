@@ -76,7 +76,10 @@ module.exports = class User {
         const user = await this.mongomodels.user.findById(userId).exec();
 
         if (entity_id === 'me') {
-            if (new_password && old_password && bcrypt.compareSync(old_password, user.password)) {
+            if (new_password && old_password) {
+                if (!bcrypt.compareSync(old_password, user.password)) {
+                    return {error: "Old Password is not valid"};
+                }
                 user.password = new_password;
             }
         } else {
